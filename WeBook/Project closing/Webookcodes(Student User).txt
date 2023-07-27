@@ -1,0 +1,445 @@
+from tkinter import *
+from tkinter import messagebox
+
+
+root = Tk()
+root.title("Webook")
+
+
+
+
+def userentry():
+    # Entering user and password
+    global userLabel
+    userLabel = Label(root, text="User: ")
+    userLabel.grid(row=0, column=0)
+    global e1
+    e1 = Entry(root, width=20, borderwidth=3)
+    e1.grid(row=0, column=1)
+
+    global passwordLabel
+    passwordLabel = Label(root, text="Password: ")
+    passwordLabel.grid(row=1, column=0)
+    global e2
+    e2 = Entry(root, width=20, borderwidth=3, show='*')
+    e2.grid(row=1, column=1)
+
+
+
+
+
+userentry()
+
+
+
+
+# After clicking log in
+
+def loginbutton():
+    if e1.get() == "admin" and e2.get() == "pass":
+
+
+        # get rid of past widgets
+        userLabel.grid_forget()
+        e1.grid_forget()
+        passwordLabel.grid_forget()
+        e2.grid_forget()
+        loginbut.grid_forget()
+
+
+
+
+
+
+        # create frame for widgets to be in
+        global frame
+        frame = LabelFrame(root)
+        frame.grid(padx=50, pady=50)
+
+        global welcomelabel
+        global chooselabel
+        global createbut
+        global managebut
+        global viewbut
+
+        welcomelabel = Label(frame, text="Welcome Staff!")
+        welcomelabel.grid(row=0, column=1)
+        chooselabel = Label(frame, text="What would you like to do?")
+        chooselabel.grid(row=1, column=1)
+
+
+     # staff selection options
+
+        createbut = Button(frame, text="Create Rooms", padx=30, pady=15, command=createbutton)
+        managebut = Button(frame, text="Manage Rooms", padx=30, pady=15, command=managebutton)
+        viewbut = Button(frame, text="View Rooms", padx=30, pady=15, command=viewbutton)
+
+        createbut.grid(row=2, column=0)
+        managebut.grid(row=2, column=1)
+        viewbut.grid(row=2, column=2)
+
+    # student log in
+    elif e1.get() == "student" and e2.get() == "pass":
+        # get rid of past widgets
+        userLabel.grid_forget()
+        e1.grid_forget()
+        passwordLabel.grid_forget()
+        e2.grid_forget()
+        loginbut.grid_forget()
+
+        # create frame for widgets to be in
+        global frame2
+        frame2 = LabelFrame(root)
+        frame2.grid(padx=50, pady=50)
+
+        global welcomelabel2
+        global chooselabel2
+        global viewingbut
+        global bookbut
+        global modifybut
+
+        welcomelabel2 = Label(frame2, text="Welcome Student!")
+        welcomelabel2.grid(row=0, column=1)
+        chooselabel2 = Label(frame2, text="What would you like to do?")
+        chooselabel2.grid(row=1, column=1)
+
+        # student selection options
+        viewingbut = Button(frame2, text="View Rooms", padx=40, pady=15, command=viewingbutton)
+        bookbut = Button(frame2, text="Book Rooms", padx=40, pady=15, command=bookbutton)
+        modifybut = Button(frame2, text="Modify Rooms", padx=35, pady=15, command=modifybutton)
+
+        viewingbut.grid(row=2, column=0)
+        bookbut.grid(row=2, column=1)
+        modifybut.grid(row=2, column=2)
+
+    else:
+        messagebox.showerror("Invalid Login", "Invalid Login. Please try again.")
+
+        userLabel.grid_forget()
+        e1.grid_forget()
+        passwordLabel.grid_forget()
+        e2.grid_forget()
+
+        return (userentry())
+
+
+
+
+# Create button options (STAFF)
+
+def createbutton():
+
+    welcomelabel.grid_forget()
+    chooselabel.grid_forget()
+    createbut.grid_forget()
+    managebut.grid_forget()
+    viewbut.grid_forget()
+
+    global optionlabel
+    optionlabel = Label(root, text="Room options")
+    optionlabel.place(x=50, y=25)
+
+    global launchbut
+    launchbut = Button(root, text="Launch room", command=launch)
+    launchbut.place(x=450, y=100)
+
+    global backbut
+    backbut = Button(root, text="Back", command=backbutton)
+    backbut.place(x=50, y=100)
+
+    date()
+    time()
+    price()
+    capacity()
+    promocode()
+
+
+
+def date():
+    global clicked
+    clicked = StringVar()
+    clicked.set("Monday")
+
+    drop = OptionMenu(frame, clicked, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+    drop.grid(row=0, column=0)
+
+
+def time():
+    global clicked2
+    clicked2 = StringVar()
+    clicked2.set("8:00am - 12:00pm")
+
+    drop2 = OptionMenu(frame, clicked2, "8:00am - 12:00pm", "12:00pm - 4:00pm", "4:00pm - 8:00pm")
+    drop2.grid(row=0, column=1)
+
+
+def price():
+    global clicked3
+    clicked3 = StringVar()
+    clicked3.set("$60")
+
+    drop3 = OptionMenu(frame, clicked3, "$60", "$80", "$100")
+    drop3.grid(row=0, column=2)
+
+def capacity():
+    global clicked4
+    clicked4 = StringVar()
+    clicked4.set("4pax")
+
+    drop4 = OptionMenu(frame, clicked4, "4pax", "6pax", "8pax", "10pax")
+    drop4.grid(row=0, column=3)
+
+
+def promocode():
+    global promo1
+    promo1 = StringVar()
+    promo1.set("Promo Codes")
+    promo = OptionMenu(frame, promo1, "UOWUOWUOW-10%OFF", "EARLYBIRD2021-15%OFF", "WEBOOK2021-20%OFF", )
+    promo.grid(row=0, column=4)
+
+def launch():
+    messagebox.showinfo("Room created", clicked.get() + "\n" + clicked2.get() + "\n" + clicked3.get() + "\n" + clicked4.get() + "\n" + promo1.get())
+
+
+def backbutton():
+    frame.destroy()
+    optionlabel.place_forget()
+    backbut.place_forget()
+    launchbut.place_forget()
+    return(loginbutton())
+
+# back button for manage room, different things to forget, so it cant be the same as the create room back button
+def backbutton2():
+    frame.destroy()
+    optionlabel.place_forget()
+    backbut.place_forget()
+    update.place_forget()
+    room1.place_forget()
+    return(loginbutton())
+
+
+# after pressing manage button
+def managebutton():
+    welcomelabel.grid_forget()
+    chooselabel.grid_forget()
+    createbut.grid_forget()
+    managebut.grid_forget()
+    viewbut.grid_forget()
+
+    global room1
+    room1 = Label(root, text="Update Options")
+    room1.place(x=50, y=25)
+
+    global update
+    update = Button(root, text="Update room", command=updatebutton)
+    update.place(x=450, y=100)
+
+    global backbut
+    backbut = Button(root, text="Back", command=backbutton2)
+    backbut.place(x=50, y=100)
+
+    global data
+    data = StringVar()
+    data.set(clicked.get())
+
+    drop = OptionMenu(frame, data, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+    drop.grid(row=0, column=0)
+
+    global data2
+    data2 = StringVar()
+    data2.set(clicked2.get())
+
+    drop2 = OptionMenu(frame, data2, "8:00am - 12:00pm", "12:00pm - 4:00pm", "4:00pm - 8:00pm")
+    drop2.grid(row=0, column=1)
+
+    global data3
+    data3 = StringVar()
+    data3.set(clicked3.get())
+
+    drop3 = OptionMenu(frame, data3, "$60", "$80", "$100")
+    drop3.grid(row=0, column=2)
+
+    global data4
+    data4 = StringVar()
+    data4.set(clicked4.get())
+
+    drop4 = OptionMenu(frame,  data4, "4pax", "6pax", "8pax", "10pax")
+    drop4.grid(row=0, column=3)
+
+    global promodatain
+    promodatain = StringVar()
+    promodatain.set(promo1.get())
+
+    promodata = OptionMenu(frame, promodatain, "UOWUOWUOW-10%OFF", "EARLYBIRD2021-15%OFF", "WEBOOK2021-20%OFF", )
+    promodata.grid(row=0, column=4)
+
+def updatebutton():
+    messagebox.showinfo("Room updated", data.get() + "\n" + data2.get() + "\n" + data3.get() + "\n" + data4.get() + "\n" + promodatain.get())
+
+
+
+
+def viewbutton():
+    welcomelabel.grid_forget()
+    chooselabel.grid_forget()
+    createbut.grid_forget()
+    managebut.grid_forget()
+    viewbut.grid_forget()
+    update.place_forget()
+
+    global room1
+    room1 = Label(root, text="Rooms Active")
+    room1.place(x=50, y=25)
+
+    roominfo2 = Label(frame, text="Room 1: " + clicked.get() + "  " + clicked2.get() + "  " + clicked3.get() + "  " + clicked4.get() + "  " + promo1.get())
+    roominfo2.grid(row=1, column=0)
+
+    roominfo = Label(frame, text="Room 2: " + data.get() + "  " + data2.get() + " " + data3.get() + "  " + data4.get() + "  " + promodatain.get())
+    roominfo.grid(row=2, column=0)
+
+
+
+# Create button options (STUDENT)
+def viewingbutton():
+    welcomelabel2.grid_forget()
+    chooselabel2.grid_forget()
+    viewingbut.grid_forget()
+    bookbut.grid_forget()
+    modifybut.grid_forget()
+
+    global rooms
+    rooms = Label(root, text="Rooms Available")
+    rooms.place(x=50, y =25)
+
+    roomavail = Label(frame2, text="Room 1: Wednesday 12:00pm - 4:00pm $80 6pax EARLYBIRD2021-15%OFF")
+    roomavail.pack(anchor=W)
+
+    roomavail2 = Label(frame2, text="Room 2: Friday 4:00pm - 8:00pm $100 10pax WEBOOK2021-20%OFF")
+    roomavail2.pack(anchor=W)
+
+    global viewbackbut
+    viewbackbut = Button(root, text="Back", command=backbutton4)
+    viewbackbut.place(x=50, y=100)
+
+def backbutton4():
+    frame2.destroy()
+    rooms.place_forget()
+    viewbackbut.place_forget()
+    return loginbutton()
+
+def bookbutton():
+    welcomelabel2.grid_forget()
+    chooselabel2.grid_forget()
+    viewingbut.grid_forget()
+    bookbut.grid_forget()
+    modifybut.grid_forget()
+
+    global bookrm
+    bookrm = Label(root, text="Book Room(s)")
+    bookrm.place(x=50, y =25)
+
+    global bookrmbut
+    bookrmbut = Button(root, text="Book Room", command=book)
+    bookrmbut.place(x=414, y=105)
+
+    global bookbackbut
+    bookbackbut = Button(root, text="Back", command=backbutton5)
+    bookbackbut.place(x=50, y=105)
+
+    global choose
+    choose = StringVar()
+    choose.set("Room 1: Wednesday 12:00pm - 4:00pm $80 6pax EARLYBIRD2021-15%OFF")
+
+    rmoptions = OptionMenu(frame2, choose, "Room 1: Wednesday 12:00pm - 4:00pm $80 6pax EARLYBIRD2021-15%OFF", "Room 2: Friday 4:00pm - 8:00pm $100 10pax WEBOOK2021-20%OFF           ")
+    rmoptions.pack()
+
+    global promocheck
+    promocheck = Checkbutton(root, text="Use Promotional Code")
+    promocheck.place(x=200, y=85)
+
+def book():
+    messagebox.showinfo("Room booked", choose.get())
+
+def backbutton5():
+    frame2.destroy()
+    bookbackbut.place_forget()
+    bookrm.place_forget()
+    bookrmbut.place_forget()
+    promocheck.place_forget()
+    return loginbutton()
+
+def modifybutton():
+    welcomelabel2.grid_forget()
+    chooselabel2.grid_forget()
+    viewingbut.grid_forget()
+    bookbut.grid_forget()
+    modifybut.grid_forget()
+
+    global frame3
+    frame3 = LabelFrame(root)
+    frame3.grid(padx=50, pady=35)
+
+    global currentrm
+    currentrm = Label(root, text="Room(s) Booked")
+    currentrm.place(x=48, y =25)
+
+    bkroominfo = Label(frame2, text=choose.get())
+    bkroominfo.grid(row=1, column=0)
+
+    global modifyrm
+    modifyrm = Label(root, text="Modify Room(s)")
+    modifyrm.place(x=48, y = 75)
+
+    global change
+    change = StringVar()
+    change.set("Room 1: Wednesday 12:00pm - 4:00pm $80 6pax EARLYBIRD2021-15%OFF")
+    
+    global rmoption
+    rmoption = OptionMenu(root, change, "Room 1: Wednesday 12:00pm - 4:00pm $80 6pax EARLYBIRD2021-15%OFF", "Room 2: Friday 4:00pm - 8:00pm $100 10pax WEBOOK2021-20%OFF           ")
+    rmoption.place(x=48, y = 95)
+
+    global modifyrmbut
+    modifyrmbut = Button(root, text="Modify Room", bg="#4CBB17", fg="white", command=modify)
+    modifyrmbut.place(x=215, y=125)
+
+    global cancelbut
+    cancelbut = Button(root, text="Cancel Booking", bg="#EE4B2B", fg="white", command=cancel)
+    cancelbut.place(x=387, y =150)
+
+    global modifybackbut  
+    modifybackbut = Button(root, text="Back", command=backbutton6)
+    modifybackbut.place(x=50, y=150)
+
+def modify():
+    messagebox.showinfo("Booking changed", change.get())
+
+def cancel():
+    messagebox.showwarning("Cancellation", "Booking cancelled")
+
+def backbutton6():
+    frame2.destroy()
+    frame3.destroy()
+    currentrm.place_forget()
+    modifyrm.place_forget()
+    rmoption.place_forget()
+    modifyrmbut.place_forget()
+    cancelbut.place_forget()
+    modifybackbut.place_forget()
+    return loginbutton()
+
+
+
+# log in button
+
+loginbut = Button(root, text="Login", command=loginbutton)
+loginbut.grid(row=2, column=1)
+
+
+
+
+
+
+
+
+
+root.mainloop()

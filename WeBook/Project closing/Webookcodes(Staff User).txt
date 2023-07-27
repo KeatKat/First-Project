@@ -1,0 +1,218 @@
+from tkinter import *
+from tkinter import messagebox
+
+
+root = Tk()
+root.title("Webook")
+
+
+
+
+def userentry():
+    # Entering user and password
+    global userLabel
+    userLabel = Label(root, text="User: ")
+    userLabel.grid(row=0, column=0)
+    global e1
+    e1 = Entry(root, width=20, borderwidth=3)
+    e1.grid(row=0, column=1)
+
+    global passwordLabel
+    passwordLabel = Label(root, text="Password: ")
+    passwordLabel.grid(row=1, column=0)
+    global e2
+    e2 = Entry(root, width=20, borderwidth=3, show='*')
+    e2.grid(row=1, column=1)
+
+
+
+userentry()
+# After clicking log in
+
+def loginbutton():
+
+
+    if e1.get() == "admin" and e2.get() == "pass":
+
+        global invalid
+        invalid = Label(root, text="Invalid Login. Please try again", padx=10)
+
+
+        # get rid of past widgets
+        userLabel.grid_forget()
+        e1.grid_forget()
+        passwordLabel.grid_forget()
+        e2.grid_forget()
+        loginbut.grid_forget()
+        invalid.grid_forget()
+
+
+        # create frame for widgets to be in
+        global frame
+        frame = LabelFrame(root)
+        frame.grid(padx=50, pady=50)
+
+        global welcomelabel
+        global chooselabel
+        global createbut
+        global managebut
+        global deletebut
+
+        welcomelabel = Label(frame, text="Welcome Staff!")
+        welcomelabel.grid(row=0, column=1)
+        chooselabel = Label(frame, text="What would you like to do?")
+        chooselabel.grid(row=1, column=1)
+
+     # staff selection options
+
+        createbut = Button(frame, text="Create Rooms", padx=30, pady=15, command=createbutton)
+        managebut = Button(frame, text="Manage Rooms", padx=30, pady=15, command=managebutton)
+        deletebut = Button(frame, text="View Rooms", padx=30, pady=15)
+
+        createbut.grid(row=2, column=0)
+        managebut.grid(row=2, column=1)
+        deletebut.grid(row=2, column=2)
+
+    else :
+        userLabel.grid_forget()
+        e1.grid_forget()
+        passwordLabel.grid_forget()
+        e2.grid_forget()
+
+        invalid = Label(root, text="Invalid Login. Please try again", padx=10)
+        invalid.grid(row=4, column=1)
+        return(userentry())
+
+
+# Create button options
+
+def createbutton():
+
+    welcomelabel.grid_forget()
+    chooselabel.grid_forget()
+    createbut.grid_forget()
+    managebut.grid_forget()
+    deletebut.grid_forget()
+
+    global optionlabel
+    optionlabel = Label(root, text="Room options")
+    optionlabel.place(x=50, y=25)
+
+    global launchbut
+    launchbut = Button(root, text="Launch room", command=launch)
+    launchbut.place(x=330, y=100)
+
+    global backbut
+    backbut = Button(root, text="Back", command=backbutton)
+    backbut.place(x=50, y=100)
+
+    date()
+    time()
+    price()
+    capacity()
+
+
+
+def date():
+    global clicked
+    clicked = StringVar()
+    clicked.set("Monday")
+
+    drop = OptionMenu(frame, clicked, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+    drop.grid(row=0, column=0)
+
+
+def time():
+    global clicked2
+    clicked2 = StringVar()
+    clicked2.set("8:00am - 12:00pm")
+
+    drop2 = OptionMenu(frame, clicked2, "8:00am - 12:00pm", "12:00pm - 4:00pm", "4:00pm - 8:00pm")
+    drop2.grid(row=0, column=1)
+
+
+def price():
+    global clicked3
+    clicked3 = StringVar()
+    clicked3.set("$60")
+
+    drop3 = OptionMenu(frame, clicked3, "$60", "$80", "$100")
+    drop3.grid(row=0, column=2)
+
+def capacity():
+    global clicked4
+    clicked4 = StringVar()
+    clicked4.set("4pax")
+
+    drop4 = OptionMenu(frame, clicked4, "4pax", "6pax", "8pax", "10pax")
+    drop4.grid(row=0, column=3)
+
+def launch():
+    messagebox.showinfo("Room created", clicked.get() + "\n" + clicked2.get() + "\n" + clicked3.get() + "\n" + clicked4.get())
+
+
+def backbutton():
+    frame.destroy()
+    optionlabel.place_forget()
+    backbut.place_forget()
+    launchbut.place_forget()
+
+    return(loginbutton())
+
+
+
+def managebutton():
+    welcomelabel.grid_forget()
+    chooselabel.grid_forget()
+    createbut.grid_forget()
+    managebut.grid_forget()
+    deletebut.grid_forget()
+
+
+
+    global data
+    data = StringVar()
+    data.set(clicked.get())
+
+    drop = OptionMenu(frame, data, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+    drop.grid(row=0, column=0)
+
+    global data2
+    data2 = StringVar()
+    data2.set(clicked2.get())
+
+    drop2 = OptionMenu(frame, data2, "8:00am - 12:00pm", "12:00pm - 4:00pm", "4:00pm - 8:00pm")
+    drop2.grid(row=0, column=1)
+
+    global data3
+    data3 = StringVar()
+    data3.set(clicked3.get())
+
+    drop3 = OptionMenu(frame, data3, "$60", "$80", "$100")
+    drop3.grid(row=0, column=2)
+
+    global data4
+    data4 = StringVar()
+    data4.set("4pax")
+
+    drop4 = OptionMenu(frame,  data4, "4pax", "6pax", "8pax", "10pax")
+    drop4.grid(row=0, column=3)
+
+
+
+
+
+# log in button
+
+loginbut = Button(root, text="Login", command=loginbutton)
+loginbut.grid(row=2, column=1)
+
+
+
+
+
+
+
+
+
+root.mainloop()
